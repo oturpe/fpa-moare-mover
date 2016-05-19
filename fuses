@@ -1,0 +1,6 @@
+mcu=attiny2313
+#programmer=arduinoisp
+programmer=arduinoisp
+
+# Fuses to be decided later
+#sudo avrdude -c ${programmer} -p ${mcu} -U lfuse:w:0x62:m -U hfuse:w:0xdc:m -U efuse:w:0xff:m
