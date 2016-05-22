@@ -8,8 +8,11 @@
 // the indicator is lit and darkened. Given in units of LOOP_DELAY.
 #define INDICATOR_HALF_PERIOD 25
 
-// The period the motor runs in one direction.
-#define DIRECTION_PERIOD 400
+// Total angle of rotation of the motor. Given in units of single motor step
+// (or microstep if enabled).
+#define ROTATION_ANGLE 750
 
-// Half length of stepper step sequence. Given in units of LOOP_DELAY.
-#define STEP_HALF_PERIOD 4
+// Speed of rotation, given as a prescaler value and delay of single step. Unit
+// is single clock pulse.
+#define ROTATION_PRESCALER Attiny2313::PSV_256
+#define STEP_HALF_PERIOD 64
