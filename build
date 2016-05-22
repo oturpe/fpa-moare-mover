@@ -1,4 +1,4 @@
-projectName=fan-flasher
+projectName=moare-mover
 sourceDir=src
 #libDir=src/lib/DmxSimple
 targetDir=target

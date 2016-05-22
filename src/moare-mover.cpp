@@ -1,4 +1,10 @@
-// Fog mover tester
+// Moaré mover
+//
+// Rotates a stepper motor back and forth by sending commands to Easy Driver
+// stepper controller. The intent is to automate an Moaré pattern animation.
+//
+// Author: Otto Urpelainen
+// Date: 2016-05-20
 
 #include "Attiny2313Utils.h"
 
@@ -27,6 +33,15 @@ inline void setIndicator(bool lit) {
 }
 
 /// \brief
+///    Sets the movement speed.
+///
+/// \param speed
+///    New speed. Allowed range is 0..255
+inline void setSpeed(uint8_t speed) {
+    OCR0A = speed;
+}
+
+/// \brief
 ///    Advances the motor half a step
 inline void halfStep() {
     static bool high;
@@ -43,6 +58,32 @@ inline void halfStep() {
 uint16_t motorCounter = 0;
 bool clockwise = false;
 bool homingComplete = false;
+
+#define SPEED_SEQUENCE_SIZE 20
+uint8_t speedSequence[SPEED_SEQUENCE_SIZE] = {
+    142,
+    136,
+     42,
+     31,
+     77,
+     85,
+     45,
+    104,
+    209,
+    199,
+    200,
+    157,
+    218,
+     61,
+    106,
+     48,
+    225,
+    204,
+    227,
+    219
+};
+
+uint8_t speedCounter = 0;
 
 // \brief
 ///    Advances the motor half a step
@@ -95,6 +136,8 @@ ISR(TIMER0_COMPA_vect, ISR_NOBLOCK) {
 
     if (motorCounter == ROTATION_ANGLE) {
         setDirection(!clockwise);
+        speedCounter = (speedCounter + 1) % SPEED_SEQUENCE_SIZE;
+        setSpeed(speedSequence[speedCounter]);
         motorCounter = 0;
     }
     else {
@@ -115,8 +158,7 @@ int main() {
     TIMSK |= BV(OCIE0A);
     Attiny2313::setTimer0Prescaler(ROTATION_PRESCALER);
 
-    // Set rotation speed.
-    OCR0A = STEP_HALF_PERIOD;
+    setSpeed(speedSequence[0]);
 
     // Initialize pullup for sensor pin
     PORTB |= BV(PORTB3);

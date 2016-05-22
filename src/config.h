@@ -14,5 +14,4 @@
 
 // Speed of rotation, given as a prescaler value and delay of single step. Unit
 // is single clock pulse.
-#define ROTATION_PRESCALER Attiny2313::PSV_256
-#define STEP_HALF_PERIOD 64
+#define ROTATION_PRESCALER Attiny2313::PSV_64
