@@ -134,13 +134,21 @@ ISR(TIMER0_COMPA_vect, ISR_NOBLOCK) {
         return;
     }
 
-    if (motorCounter == ROTATION_ANGLE) {
-        setDirection(!clockwise);
-        speedCounter = (speedCounter + 1) % SPEED_SEQUENCE_SIZE;
-        setSpeed(speedSequence[speedCounter]);
-        motorCounter = 0;
+    if (clockwise) {
+        if (motorCounter == ROTATION_ANGLE) {
+            setDirection(!clockwise);
+            speedCounter = (speedCounter + 1) % SPEED_SEQUENCE_SIZE;
+            setSpeed(speedSequence[speedCounter]);
+            motorCounter = 0;
+        }
     }
     else {
+        if (!(PINB & BV(PINB3))) {
+            setDirection(!clockwise);
+            speedCounter = (speedCounter + 1) % SPEED_SEQUENCE_SIZE;
+            setSpeed(speedSequence[speedCounter]);
+            motorCounter = 0;
+        }
     }
 }
 
